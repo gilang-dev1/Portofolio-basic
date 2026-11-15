@@ -1,0 +1,2069 @@
+<!doctype html>
+<html lang="id" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gilang R Lubis — Creative Full-Stack Engineer & UI/UX Architect</title>
+
+    <!--
+  ==============================================================================
+  STRUKTUR FOLDER PROJECT (UNTUK VS CODE)
+  ==============================================================================
+  Simpan file ini sebagai `index.html` di folder utama project Anda.
+  Buat folder `assets/img` yang rapi dan sederhana seperti di bawah ini:
+
+  portfolio-project/
+  ├── index.html                  <-- File utama website portofolio ini
+  └── assets/
+      └── img/
+          ├── profile.jpg         <-- Foto profil utama di Hero Section
+          ├── about.jpg           <-- Foto pendukung / aktivitas di About Me
+          ├── project-1.jpg       <-- Thumbnail Proyek 1
+          ├── project-2.jpg       <-- Thumbnail Proyek 2
+          ├── project-3.jpg       <-- Thumbnail Proyek 3
+          └── project-4.jpg       <-- Thumbnail Proyek 4
+
+  CATATAN:
+  Seluruh gambar dan isi teks HANYA dapat diubah melalui kode sumber (VS Code).
+  Jika file gambar belum dimasukkan ke folder `assets/img/`, website otomatis
+  menampilkan visual vektor futuristik yang bersih tanpa pesan error.
+  ==============================================================================
+  -->
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              deepBlack: "#080B12",
+              darkNavy: "#101827",
+              electricBlue: "#2563EB",
+              cyanBlue: "#38BDF8",
+              pureWhite: "#FFFFFF",
+              softGray: "#94A3B8",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+              mono: ["JetBrains Mono", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* ==========================================================================
+       DESIGN SYSTEM & FUTURISTIC MINIMALIST STYLES
+       ========================================================================== */
+      :root {
+        --bg-deep: #080b12;
+        --bg-navy: #101827;
+        --electric-blue: #2563eb;
+        --cyan-blue: #38bdf8;
+        --pure-white: #ffffff;
+        --soft-gray: #94a3b8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        background-color: var(--bg-deep);
+        color: var(--pure-white);
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+
+      body {
+        background-color: var(--bg-deep);
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      ::selection {
+        background: rgba(56, 189, 248, 0.25);
+        color: #ffffff;
+      }
+
+      /* Responsive Fluid Typography */
+      .hero-title-clamp {
+        font-size: clamp(2rem, 5vw, 4.25rem);
+        line-height: 1.08;
+      }
+      .section-title-clamp {
+        font-size: clamp(1.5rem, 3.2vw, 2.35rem);
+        line-height: 1.2;
+      }
+
+      /* Two-line text clamp for compact project descriptions */
+      .line-clamp-2-custom {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 7px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #080b12;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #2563eb;
+      }
+
+      /* Architectural Blueprint Grid Background */
+      .blueprint-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        background-image:
+          radial-gradient(circle at 50% 12%, rgba(37, 99, 235, 0.15) 0%, rgba(16, 24, 39, 0.4) 45%, rgba(8, 11, 18, 0.96) 100%), linear-gradient(to right, rgba(56, 189, 248, 0.045) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(56, 189, 248, 0.045) 1px, transparent 1px);
+        background-size:
+          100% 100%,
+          48px 48px,
+          48px 48px;
+      }
+
+      .blueprint-bg.active-grid {
+        opacity: 1;
+      }
+
+      .blueprint-bg.constructing-grid {
+        background-image:
+          radial-gradient(circle at 50% 12%, rgba(56, 189, 248, 0.18) 0%, rgba(16, 24, 39, 0.55) 50%, rgba(8, 11, 18, 0.98) 100%), linear-gradient(to right, rgba(56, 189, 248, 0.11) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(56, 189, 248, 0.11) 1px, transparent 1px);
+        background-size:
+          100% 100%,
+          48px 48px,
+          48px 48px;
+      }
+
+      /* Glassmorphism Utilities */
+      .glass-panel {
+        background: rgba(16, 24, 39, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(56, 189, 248, 0.15);
+        box-shadow:
+          0 20px 45px rgba(0, 0, 0, 0.45),
+          inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      }
+
+      .glass-nav {
+        background: rgba(8, 11, 18, 0.8);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(56, 189, 248, 0.14);
+      }
+
+      /* ==========================================================================
+       LIVE CONSTRUCTION BLUEPRINT & WIREFRAME ENGINE STATES
+       ========================================================================== */
+      .build-node {
+        opacity: 0;
+        transform: translateY(18px) scale(0.99);
+        transition:
+          opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+          outline-color 0.4s ease,
+          box-shadow 0.4s ease,
+          background-color 0.4s ease;
+        position: relative;
+      }
+
+      /* Wireframe Blueprint Stage (Dashed Cyan Border + DOM Tag Label) */
+      .build-node.wireframe-active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        outline: 1px dashed rgba(56, 189, 248, 0.8);
+        outline-offset: 4px;
+        background-color: rgba(56, 189, 248, 0.035);
+        box-shadow: 0 0 22px rgba(56, 189, 248, 0.15);
+      }
+
+      .build-node.wireframe-active::before {
+        content: attr(data-blueprint-tag);
+        position: absolute;
+        top: -20px;
+        left: 0;
+        background: rgba(8, 11, 18, 0.95);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 10px;
+        line-height: 1;
+        padding: 2.5px 6px;
+        border-radius: 4px;
+        letter-spacing: 0.03em;
+        z-index: 30;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      /* Compiled / Finalized Element State */
+      .build-node.built-complete {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        outline: 1px dashed transparent;
+        outline-offset: 0px;
+      }
+
+      /* Scanner Beam Effect for Hero Profile Image */
+      .scanner-container {
+        position: relative;
+        overflow: hidden;
+      }
+      .scanner-beam {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #38bdf8, #ffffff, #38bdf8, transparent);
+        box-shadow: 0 0 18px 3px rgba(56, 189, 248, 0.8);
+        top: -10%;
+        opacity: 0;
+        z-index: 20;
+        pointer-events: none;
+      }
+      .scanner-active .scanner-beam {
+        opacity: 1;
+        animation: scanSweep 1.15s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      @keyframes scanSweep {
+        0% {
+          top: 0%;
+          opacity: 1;
+        }
+        90% {
+          top: 100%;
+          opacity: 1;
+        }
+        100% {
+          top: 105%;
+          opacity: 0;
+        }
+      }
+
+      /* Futuristic Corner Brackets */
+      .corner-bracket {
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border-color: #38bdf8;
+        pointer-events: none;
+        z-index: 15;
+      }
+      .cb-tl {
+        top: -3px;
+        left: -3px;
+        border-top: 2px solid;
+        border-left: 2px solid;
+      }
+      .cb-tr {
+        top: -3px;
+        right: -3px;
+        border-top: 2px solid;
+        border-right: 2px solid;
+      }
+      .cb-bl {
+        bottom: -3px;
+        left: -3px;
+        border-bottom: 2px solid;
+        border-left: 2px solid;
+      }
+      .cb-br {
+        bottom: -3px;
+        right: -3px;
+        border-bottom: 2px solid;
+        border-right: 2px solid;
+      }
+
+      /* Subtle Floating Animation */
+      @keyframes floatSlow {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+      .animate-float {
+        animation: floatSlow 5s ease-in-out infinite;
+      }
+      .animate-float-delayed {
+        animation: floatSlow 6s ease-in-out 2s infinite;
+      }
+
+      /* Pulse Ring for Developer Cursor Clicks */
+      @keyframes clickRipple {
+        0% {
+          transform: translate(-50%, -50%) scale(0.25);
+          opacity: 0.95;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2.4);
+          opacity: 0;
+        }
+      }
+      .cursor-click-ripple {
+        position: fixed;
+        width: 32px;
+        height: 32px;
+        border-radius: 9999px;
+        border: 1.5px solid #38bdf8;
+        background: rgba(56, 189, 248, 0.2);
+        pointer-events: none;
+        z-index: 9998;
+        animation: clickRipple 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      /* Card Hover Glow */
+      .futuristic-card {
+        transition:
+          transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 0.35s ease,
+          box-shadow 0.35s ease;
+      }
+      .futuristic-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(56, 189, 248, 0.45);
+        box-shadow:
+          0 18px 36px -14px rgba(37, 99, 235, 0.32),
+          0 0 18px rgba(56, 189, 248, 0.1);
+      }
+
+      /* Typing Caret */
+      .typing-caret::after {
+        content: "▋";
+        display: inline-block;
+        margin-left: 3px;
+        color: #38bdf8;
+        animation: blinkCaret 0.8s steps(2, start) infinite;
+      }
+      @keyframes blinkCaret {
+        to {
+          visibility: hidden;
+        }
+      }
+
+      /* Custom Cursor Hiding on Desktop when Active */
+      @media (hover: hover) and (pointer: fine) {
+        body.custom-cursor-enabled {
+          cursor: none;
+        }
+        body.custom-cursor-enabled a,
+        body.custom-cursor-enabled button,
+        body.custom-cursor-enabled input,
+        body.custom-cursor-enabled textarea {
+          cursor: none;
+        }
+      }
+
+      /* Hide interactive user dot/ring only when touch is actively used,
+       keeping Dev Builder Cursor & Trail Canvas alive across viewport switches */
+      body.touch-mode-active #userCursorDot,
+      body.touch-mode-active #userCursorRing {
+        opacity: 0 !important;
+      }
+
+      /* Responsive Scaling for Builder Cursor on Smaller Screens */
+      @media (max-width: 768px) {
+        #devBuilderCursor {
+          scale: 0.88;
+        }
+        .glass-panel {
+          border-color: rgba(56, 189, 248, 0.14);
+          box-shadow:
+            0 12px 30px rgba(0, 0, 0, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        .build-node.wireframe-active::before {
+          font-size: 9px;
+          top: -18px;
+          padding: 2px 5px;
+        }
+      }
+
+      /* Reduced Motion Support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        ::before,
+        ::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-deepBlack text-pureWhite antialiased selection:bg-electricBlue selection:text-white">
+    <!-- ==========================================================================
+       1. ARCHITECTURAL BLUEPRINT BACKGROUND & CURSOR TRAIL CANVAS
+       ========================================================================== -->
+    <div id="blueprintBg" class="blueprint-bg active-grid"></div>
+    <canvas id="cursor-canvas" class="fixed inset-0 pointer-events-none z-[9990]"></canvas>
+
+    <!-- ==========================================================================
+       2. DUAL CURSOR SYSTEM (DEV BUILDER CURSOR & USER INTERACTIVE CURSOR)
+       Responsif & otomatis pulih saat berganti mode Mobile <-> Desktop.
+       ========================================================================== -->
+    <!-- A. Autonomous Developer Builder Cursor (Visible during live construction) -->
+    <div id="devBuilderCursor" class="fixed top-0 left-0 pointer-events-none z-[9999] opacity-0 transition-opacity duration-300" style="transform: translate3d(-100px, -100px, 0)">
+      <div id="devCursorRing" class="w-9 h-9 -ml-4 -mt-4 rounded-full border border-cyanBlue/70 bg-cyanBlue/10 flex items-center justify-center shadow-[0_0_16px_rgba(56,189,248,0.45)] transition-transform duration-150">
+        <div class="w-1.5 h-1.5 rounded-full bg-pureWhite"></div>
+      </div>
+      <svg class="w-5 h-5 -mt-7 -ml-0.5 text-cyanBlue drop-shadow-[0_0_8px_rgba(56,189,248,0.9)]" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4 2L20 10.5L12.5 13L16 20.5L13 22L9.5 14.5L4 19V2Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round" />
+      </svg>
+      <div class="ml-4 -mt-1.5 px-2 py-0.5 rounded bg-deepBlack/95 border border-cyanBlue/50 shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyanBlue animate-ping"></span>
+        <span id="devCursorActionText" class="font-mono text-[10px] text-cyanBlue tracking-wider">DEV_CURSOR</span>
+      </div>
+    </div>
+
+    <!-- B. User Interactive Custom Cursor (Active on Desktop after construction) -->
+    <div
+      id="userCursorDot"
+      class="fixed top-0 left-0 w-2 h-2 -ml-1 -mt-1 rounded-full bg-cyanBlue pointer-events-none z-[9997] opacity-0 transition-opacity duration-300 shadow-[0_0_10px_#38BDF8]"
+      style="transform: translate3d(-100px, -100px, 0)"
+    ></div>
+    <div
+      id="userCursorRing"
+      class="fixed top-0 left-0 w-8 h-8 -ml-4 -mt-4 rounded-full border border-cyanBlue/50 bg-cyanBlue/5 pointer-events-none z-[9996] opacity-0 transition-[width,height,margin,border-color,background-color,opacity] duration-200"
+      style="transform: translate3d(-100px, -100px, 0)"
+    ></div>
+
+    <!-- ==========================================================================
+       3. COMPACT & UNOBTRUSIVE SKIP / REPLAY PILL CONTROLLER (BOTTOM-RIGHT)
+       Berukuran kecil dan minimalis agar tidak menutupi konten portofolio.
+       ========================================================================== -->
+    <div id="compactBuildControl" class="fixed bottom-4 right-4 z-[8500] flex items-center gap-2">
+      <!-- Status Indicator Pill (Only visible while constructing) -->
+      <div id="buildStatusPill" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full glass-panel border border-cyanBlue/30 font-mono text-[11px] text-softGray shadow-lg">
+        <span class="w-1.5 h-1.5 rounded-full bg-cyanBlue animate-ping"></span>
+        <span id="buildStatusText" class="text-slate-200 max-w-[180px] truncate">Building interface...</span>
+        <span id="buildStatusPct" class="text-cyanBlue font-semibold">0%</span>
+      </div>
+
+      <!-- Small Unobtrusive Skip Intro Button -->
+      <button
+        id="skipIntroBtn"
+        onclick="skipConstructionIntro()"
+        style="font-size: 11px; padding: 6px 12px"
+        class="rounded-full glass-panel border border-cyanBlue/35 hover:border-cyanBlue hover:bg-electricBlue/25 font-mono text-pureWhite transition flex items-center gap-1.5 shadow-md"
+        title="Lewati animasi pembangunan website"
+      >
+        <span>Skip Intro</span>
+        <span class="text-cyanBlue">»</span>
+      </button>
+
+      <!-- Small Unobtrusive Replay Intro Button (Shown after completion) -->
+      <button
+        id="replayIntroBtn"
+        onclick="replayConstructionIntro()"
+        style="font-size: 11px; padding: 6px 12px"
+        class="hidden rounded-full glass-panel border border-slate-700/80 hover:border-cyanBlue/60 hover:text-cyanBlue font-mono text-softGray transition flex items-center gap-1.5 shadow-md"
+        title="Putar ulang simulasi pembangunan website"
+      >
+        <span>↺ Replay Intro</span>
+      </button>
+    </div>
+
+    <!-- Subtle Stage Finalization Toast (Top Center) -->
+    <div id="finalizationBanner" class="fixed top-20 left-1/2 -translate-x-1/2 z-[8800] pointer-events-none opacity-0 -translate-y-4 transition-all duration-500 w-[90%] max-w-md">
+      <div class="px-4 py-2.5 rounded-xl glass-panel border border-emerald-400/40 shadow-[0_0_30px_rgba(16,185,129,0.2)] flex items-center justify-center gap-2.5 text-center">
+        <span class="w-5 h-5 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-xs font-bold">✓</span>
+        <div class="text-left">
+          <div id="finalBannerTitle" class="font-display text-xs font-bold text-pureWhite">Interface Completed</div>
+          <div id="finalBannerSub" class="font-mono text-[10px] text-cyanBlue">Portfolio Successfully Deployed — Welcome to My Portfolio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+       4. NAVIGATION BAR (STICKY GLASSMORPHIC HEADER - NO DOWNLOAD CV BUTTON)
+       ========================================================================== -->
+    <header id="navbarNode" data-blueprint-tag="<header.navbar>" class="build-node fixed top-0 left-0 right-0 z-[5000] glass-nav transition-all duration-300">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[74px] flex items-center justify-between">
+        <!-- Brand / Personal Logo (Edit Nama di Sini) -->
+        <a href="#hero" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none">
+          <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-electricBlue to-cyanBlue p-[1px] shadow-[0_0_16px_rgba(37,99,235,0.35)]">
+            <div class="w-full h-full bg-deepBlack rounded-[11px] flex items-center justify-center font-display font-bold text-xs sm:text-sm text-pureWhite group-hover:bg-transparent transition">GRL</div>
+          </div>
+          <div>
+            <span class="font-display font-bold text-xs sm:text-sm tracking-tight text-pureWhite block leading-none">GILANG RAMADHAN LUBIS</span>
+            <span class="font-mono text-[8px] sm:text-[9px] text-cyanBlue tracking-widest uppercase block mt-0.5">DIGITAL PORTFOLIO</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-1 lg:gap-1.5 bg-darkNavy/50 border border-cyanBlue/15 rounded-full px-2 py-1">
+          <a href="#hero" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">Home</a>
+          <a href="#about" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">About</a>
+          <a href="#skills" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">Skills</a>
+          <a href="#projects" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">Projects</a>
+          <a href="#experience" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">Experience</a>
+          <a href="#contact" class="px-3.5 py-1.5 rounded-full text-xs lg:text-sm font-medium text-softGray hover:text-pureWhite hover:bg-white/5 transition">Contact</a>
+        </nav>
+
+        <!-- Mobile Hamburger Button (< 768px) -->
+        <button
+          id="mobileMenuBtn"
+          onclick="toggleMobileMenu()"
+          aria-label="Toggle Navigation Menu"
+          class="md:hidden p-2 rounded-xl bg-darkNavy/80 border border-cyanBlue/25 text-pureWhite hover:border-cyanBlue transition focus:outline-none"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path id="mobileMenuIcon" stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M10 17h10" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Responsive Menu Drawer -->
+      <div id="mobileMenuDrawer" class="hidden md:hidden bg-deepBlack/95 backdrop-blur-2xl border-b border-cyanBlue/15 px-4 py-3.5">
+        <div class="grid grid-cols-2 gap-2">
+          <a
+            href="#hero"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>Home</span><span class="text-[10px] font-mono text-cyanBlue/60">00</span>
+          </a>
+          <a
+            href="#about"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>About</span><span class="text-[10px] font-mono text-cyanBlue/60">01</span>
+          </a>
+          <a
+            href="#skills"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>Skills</span><span class="text-[10px] font-mono text-cyanBlue/60">02</span>
+          </a>
+          <a
+            href="#projects"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>Projects</span><span class="text-[10px] font-mono text-cyanBlue/60">03</span>
+          </a>
+          <a
+            href="#experience"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>Experience</span><span class="text-[10px] font-mono text-cyanBlue/60">04</span>
+          </a>
+          <a
+            href="#contact"
+            onclick="closeMobileMenu()"
+            class="px-3.5 py-2.5 rounded-xl bg-darkNavy/60 border border-white/5 text-xs font-medium text-slate-200 hover:border-cyanBlue/40 hover:text-cyanBlue transition flex items-center justify-between"
+          >
+            <span>Contact</span><span class="text-[10px] font-mono text-cyanBlue/60">05</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+    <main class="relative z-10 pt-20 sm:pt-28 space-y-20 sm:space-y-28 pb-16 sm:pb-24">
+      <!-- ========================================================================
+         SECTION B: HERO SECTION (HARMONIOUS MOBILE & DESKTOP PROPORTIONS)
+         ======================================================================== -->
+      <section id="hero" class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 min-h-[calc(100vh-5rem)] flex items-center relative">
+        <!-- Ambient Decorative Orbs -->
+        <div class="absolute -top-10 -left-10 w-52 sm:w-72 h-52 sm:h-72 bg-electricBlue/15 rounded-full blur-[95px] pointer-events-none"></div>
+        <div class="absolute bottom-6 right-4 w-56 sm:w-80 h-56 sm:h-80 bg-cyanBlue/10 rounded-full blur-[105px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center w-full py-4 sm:py-8">
+          <!-- Left Column: Intro, Name, Profession, Bio, CTAs -->
+          <div class="lg:col-span-7 space-y-4 sm:space-y-6 order-2 lg:order-1 text-center lg:text-left">
+            <!-- Greeting Badge -->
+            <div id="heroGreetingNode" data-blueprint-tag="<div.greeting>" class="build-node inline-flex items-center gap-2 px-3 py-1 rounded-full bg-darkNavy/90 border border-cyanBlue/25">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span class="font-mono text-[10px] sm:text-xs text-cyanBlue tracking-wider uppercase">Hello, I'm</span>
+            </div>
+
+            <!-- Main Name & Profession (Edit Nama & Profesi pada variabel PORTFOLIO_IDENTITY di bagian script bawah) -->
+            <div id="heroTitleNode" data-blueprint-tag="<h1.identity>" class="build-node space-y-2">
+              <h1 id="heroNameText" class="font-display hero-title-clamp font-bold tracking-tight text-pureWhite">GILANG RAMADHAN LUBIS</h1>
+              <div class="flex items-center justify-center lg:justify-start gap-2 text-sm sm:text-lg md:text-xl font-display font-medium text-transparent bg-clip-text bg-gradient-to-r from-cyanBlue via-blue-400 to-pureWhite min-h-[1.5rem]">
+                <span>&gt;</span>
+                <span id="heroRoleText" class="typing-caret">Senior Full-Stack Engineer &amp; UI/UX Architect</span>
+              </div>
+            </div>
+
+            <!-- Short Description (Edit Deskripsi Singkat di Sini) -->
+            <p id="heroDescNode" data-blueprint-tag="<p.biography>" class="build-node text-softGray text-xs sm:text-sm md:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
+              Merancang dan mengembangkan ekosistem aplikasi web modern yang interaktif, responsif, dan berkinerja tinggi. Menggabungkan arsitektur perangkat lunak yang presisi dengan pengalaman visual masa depan.
+            </p>
+
+            <!-- CTA Buttons (Sleek 2-column on mobile, inline on desktop) -->
+            <div id="heroCtaNode" data-blueprint-tag="<div.cta-actions>" class="build-node grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center lg:justify-start gap-3 pt-1 max-w-md mx-auto lg:mx-0">
+              <a
+                href="#projects"
+                class="justify-center px-4 sm:px-6 py-3 rounded-xl bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs sm:text-sm tracking-wide hover:brightness-110 transition shadow-[0_8px_24px_rgba(37,99,235,0.3)] flex items-center gap-1.5"
+              >
+                <span>View Projects</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </a>
+              <a
+                href="#contact"
+                class="justify-center px-4 sm:px-6 py-3 rounded-xl glass-panel border border-cyanBlue/30 hover:border-cyanBlue text-pureWhite font-display font-semibold text-xs sm:text-sm transition flex items-center gap-1.5"
+              >
+                <span>Contact Me</span>
+              </a>
+            </div>
+
+            <!-- Social Media Links -->
+            <div id="heroSocialNode" data-blueprint-tag="<div.social-links>" class="build-node pt-3.5 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-5 border-t border-slate-800/70">
+              <div class="flex items-center gap-2.5">
+                <!-- Edit URL Social Media Anda di atribut href berikut -->
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  class="w-9 h-9 rounded-xl bg-darkNavy/90 border border-slate-700/70 hover:border-cyanBlue hover:text-cyanBlue flex items-center justify-center text-softGray transition"
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  class="w-9 h-9 rounded-xl bg-darkNavy/90 border border-slate-700/70 hover:border-cyanBlue hover:text-cyanBlue flex items-center justify-center text-softGray transition"
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14m-.5 15.5v-5.3a3.26 3.26 0 00-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 011.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 001.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 00-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  class="w-9 h-9 rounded-xl bg-darkNavy/90 border border-slate-700/70 hover:border-cyanBlue hover:text-cyanBlue flex items-center justify-center text-softGray transition"
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 011.25 1.25A1.25 1.25 0 0117.25 8 1.25 1.25 0 0116 6.75a1.25 1.25 0 011.25-1.25M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5m0 2a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3z"
+                    />
+                  </svg>
+                </a>
+                <a
+                  href="mailto:alex.reid@architect.dev"
+                  aria-label="Email"
+                  class="w-9 h-9 rounded-xl bg-darkNavy/90 border border-slate-700/70 hover:border-cyanBlue hover:text-cyanBlue flex items-center justify-center text-softGray transition"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </a>
+              </div>
+              <div class="h-5 w-[1px] bg-slate-800 hidden sm:block"></div>
+              <div class="flex items-center gap-4 font-mono text-[11px] text-softGray">
+                <div><strong class="text-pureWhite font-display text-xs sm:text-sm">10+</strong> Yrs Exp</div>
+                <div><strong class="text-pureWhite font-display text-xs sm:text-sm">85+</strong> Projects</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Profile Picture Frame (Compact & Sleek on Mobile) -->
+          <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+            <div id="heroAvatarNode" data-blueprint-tag="<figure.profile-photo>" class="build-node relative w-full max-w-[215px] sm:max-w-[290px] md:max-w-[340px]">
+              <!-- Corner Brackets -->
+              <div class="corner-bracket cb-tl"></div>
+              <div class="corner-bracket cb-tr"></div>
+              <div class="corner-bracket cb-bl"></div>
+              <div class="corner-bracket cb-br"></div>
+
+              <!-- Floating Badge Top-Left -->
+              <div class="animate-float hidden sm:flex absolute -top-3.5 -left-3.5 z-20 px-3 py-1.5 rounded-xl glass-panel border border-cyanBlue/40 items-center gap-2 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-cyanBlue"></span>
+                <span class="font-mono text-[10px] text-pureWhite font-semibold">FULL-STACK ARCHITECT</span>
+              </div>
+
+              <!-- Floating Badge Bottom-Right -->
+              <div class="animate-float-delayed hidden sm:flex absolute -bottom-3.5 -right-3.5 z-20 px-3 py-1.5 rounded-xl glass-panel border border-electricBlue/50 items-center gap-2 shadow-lg">
+                <span class="text-cyanBlue font-mono text-xs font-bold">&lt;/&gt;</span>
+                <span class="font-mono text-[10px] text-pureWhite font-semibold">UI/UX &amp; AI SYSTEMS</span>
+              </div>
+
+              <!-- Main Profile Picture Frame -->
+              <div id="heroScannerFrame" class="scanner-container rounded-2xl glass-panel p-2 sm:p-2.5 border border-cyanBlue/30 shadow-[0_0_38px_rgba(37,99,235,0.18)]">
+                <div class="scanner-beam"></div>
+
+                <div class="relative aspect-[4/4.4] w-full rounded-xl overflow-hidden bg-darkNavy border border-slate-800 group">
+                  <!-- ==============================================================
+                     GANTI FOTO PROFIL UTAMA DI VS CODE:
+                     Simpan foto Anda di `assets/img/profile.jpg` atau ubah atribut
+                     `src="assets/img/profile.jpg"` di bawah ini sesuai nama file.
+                     ============================================================== -->
+                  <img
+                    src="assets/img/profile.jpg"
+                    alt="Profile Photo"
+                    class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    onerror="
+                      this.onerror = null;
+                      this.src = generateVectorArtwork('GILANG RAMADHAN LUBIS', 'CREATIVE ENGINEER', true);
+                    "
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-deepBlack/85 via-transparent to-transparent pointer-events-none"></div>
+
+                  <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between font-mono text-[9px] sm:text-[10px] text-slate-300 bg-deepBlack/75 backdrop-blur-md px-2.5 py-1 rounded-lg border border-white/10">
+                    <span class="truncate">GILANG RAMADHAN LUBIS</span>
+                    <span class="text-cyanBlue shrink-0">● VERIFIED</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================
+         SECTION C: ABOUT ME (BALANCED TWO-COLUMN LAYOUT)
+         ======================================================================== -->
+      <section id="about" class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 scroll-mt-20">
+        <div id="aboutHeaderNode" data-blueprint-tag="<header.about-section>" class="build-node mb-7 sm:mb-10">
+          <div class="flex items-center gap-3 font-mono text-[11px] text-cyanBlue uppercase tracking-widest mb-1.5">
+            <span class="h-[1px] w-12 bg-cyanBlue/40"></span>
+          </div>
+          <h2 class="font-display section-title-clamp font-bold text-pureWhite">About Me</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+          <!-- Left Column: Supporting Photo / Illustration -->
+          <div id="aboutVisualNode" data-blueprint-tag="<figure.about-visual>" class="build-node lg:col-span-5">
+            <div class="relative rounded-2xl glass-panel p-3 sm:p-4 border border-cyanBlue/20">
+              <div class="corner-bracket cb-tl"></div>
+              <div class="corner-bracket cb-br"></div>
+
+              <div class="relative aspect-[16/10] sm:aspect-[4/3] rounded-xl overflow-hidden bg-darkNavy border border-slate-800 group">
+                <!-- ==============================================================
+                   GANTI FOTO PENDUKUNG ABOUT ME DI VS CODE:
+                   Simpan gambar di `assets/img/about.jpg` atau ubah atribut `src`
+                   di bawah ini.
+                   ============================================================== -->
+                <img
+                  src="assets/img/about.jpg"
+                  alt="About Me Workspace"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  onerror="
+                    this.onerror = null;
+                    this.src = generateVectorArtwork('SYSTEM ARCHITECTURE', 'ENGINEERING & DESIGN LAB', false);
+                  "
+                />
+              </div>
+
+              <!-- Key Highlights Sub-Grid -->
+              <div class="grid grid-cols-3 gap-2 sm:gap-2.5 mt-3">
+                <div class="p-2 sm:p-2.5 rounded-xl bg-deepBlack/70 border border-slate-800/90 text-center">
+                  <div class="font-display text-base sm:text-lg font-bold text-cyanBlue">10+</div>
+                  <div class="font-mono text-[8px] sm:text-[9px] text-softGray uppercase">Years Exp</div>
+                </div>
+                <div class="p-2 sm:p-2.5 rounded-xl bg-deepBlack/70 border border-slate-800/90 text-center">
+                  <div class="font-display text-base sm:text-lg font-bold text-pureWhite">40+</div>
+                  <div class="font-mono text-[8px] sm:text-[9px] text-softGray uppercase">Clients</div>
+                </div>
+                <div class="p-2 sm:p-2.5 rounded-xl bg-deepBlack/70 border border-slate-800/90 text-center">
+                  <div class="font-display text-base sm:text-lg font-bold text-emerald-400">99.9%</div>
+                  <div class="font-mono text-[8px] sm:text-[9px] text-softGray uppercase">Reliability</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Personal Introduction, Education, Core Interests -->
+          <div id="aboutContentNode" data-blueprint-tag="<article.about-bio>" class="build-node lg:col-span-7">
+            <div class="glass-panel rounded-2xl p-5 sm:p-7 space-y-4 border border-cyanBlue/20">
+              <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-electricBlue/15 border border-electricBlue/40 font-mono text-[10px] sm:text-xs text-cyanBlue">
+                <span>// PERSONAL INTRODUCTION</span>
+              </div>
+
+              <!-- Edit Deskripsi Profil About Me di bawah ini -->
+              <h3 class="font-display text-base sm:text-xl font-semibold text-pureWhite leading-snug">Menjembatani Rekayasa Sistem Kompleks dengan Desain Antarmuka Interaktif yang Intuitif.</h3>
+
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">
+                Saya adalah seorang Senior Full-Stack Developer, UI/UX Designer, dan Creative Frontend Engineer dengan pengalaman profesional lebih dari 10 tahun. Fokus utama saya adalah menciptakan produk digital yang tidak hanya kuat
+                secara arsitektur sistem di belakang layar, tetapi juga memberikan pengalaman visual yang berkesan bagi pengguna.
+              </p>
+
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">
+                Setiap baris kode dan elemen visual dirancang dengan memperhatikan skalabilitas, kecepatan interaksi, serta detail mikro-animasi yang halus di berbagai perangkat, baik desktop maupun smartphone.
+              </p>
+
+              <!-- Education & Core Interests Cards -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-800/80">
+                <div class="p-3.5 rounded-xl bg-deepBlack/60 border border-slate-800/90 space-y-1">
+                  <div class="font-mono text-[10px] text-cyanBlue flex items-center gap-1.5">
+                    <span>🎓</span>
+                    <span>EDUCATION BACKGROUND</span>
+                  </div>
+                  <div class="font-display font-semibold text-xs sm:text-sm text-pureWhite">M.Sc. &amp; B.Sc. Computer Science</div>
+                  <div class="text-[11px] text-softGray leading-normal">Spesialisasi Rekayasa Perangkat Lunak, Sistem Cerdas, dan Interaksi Manusia-Komputer.</div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-deepBlack/60 border border-slate-800/90 space-y-1">
+                  <div class="font-mono text-[10px] text-cyanBlue flex items-center gap-1.5">
+                    <span>⚡</span>
+                    <span>CORE FOCUS &amp; INTERESTS</span>
+                  </div>
+                  <div class="font-display font-semibold text-xs sm:text-sm text-pureWhite">Web Architecture, AI &amp; Robotics</div>
+                  <div class="text-[11px] text-softGray leading-normal">Full-Stack Development, Interactive UI/UX, Applied AI Agents, dan Embedded Robotics.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================
+         SECTION D: SKILLS & EXPERTISE (SLEEK 2-COL MOBILE / 4-COL DESKTOP GRID)
+         ======================================================================== -->
+      <section id="skills" class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 scroll-mt-20">
+        <div id="skillsHeaderNode" data-blueprint-tag="<header.skills-section>" class="build-node flex flex-col md:flex-row md:items-end justify-between mb-7 sm:mb-10 gap-3">
+          <div>
+            <div class="flex items-center gap-3 font-mono text-[11px] text-cyanBlue uppercase tracking-widest mb-1.5">
+              <span class="h-[1px] w-12 bg-cyanBlue/40"></span>
+            </div>
+            <h2 class="font-display section-title-clamp font-bold text-pureWhite">Skills &amp; Technical Expertise</h2>
+          </div>
+          <p class="text-softGray text-xs sm:text-sm max-w-md">Keahlian teknis lintas disiplin mulai dari pemrograman sistem, pengembangan antarmuka interaktif, hingga kecerdasan buatan.</p>
+        </div>
+
+        <!-- 8 Skills Cards Grid (2 kolom rapi di layar HP, 4 kolom di Desktop) -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <!-- Skill 1: Programming -->
+          <div id="skillCard-0" data-blueprint-tag="<div.skill-programming>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Core Logic</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Programming</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>JS / TypeScript</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Python &amp; Go</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Rust &amp; C++</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>OOP &amp; Functional</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+            </div>
+          </div>
+
+          <!-- Skill 2: Frontend Development -->
+          <div id="skillCard-1" data-blueprint-tag="<div.skill-frontend>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Interactive UI</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Frontend Dev</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>HTML5, CSS3, Tailwind</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>React, Next.js &amp; Vue</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>WebGL / Canvas 2D</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Responsive Systems</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+            </div>
+          </div>
+
+          <!-- Skill 3: Backend Development -->
+          <div id="skillCard-2" data-blueprint-tag="<div.skill-backend>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Scalable API</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Backend Dev</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Node.js &amp; NestJS</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>FastAPI &amp; Go Fiber</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>REST API &amp; GraphQL</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Microservices</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+            </div>
+          </div>
+
+          <!-- Skill 4: Database Management -->
+          <div id="skillCard-3" data-blueprint-tag="<div.skill-database>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Data Engine</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Database Mgmt</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>PostgreSQL &amp; MySQL</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>MongoDB &amp; Firestore</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Redis Caching</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Query Optimization</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-slate-800"></span>
+            </div>
+          </div>
+
+          <!-- Skill 5: UI/UX Design -->
+          <div id="skillCard-4" data-blueprint-tag="<div.skill-uiux>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                    />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Human-Centric</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">UI/UX Design</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Figma Systems</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Prototyping</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Micro-Interactions</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Accessibility</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+            </div>
+          </div>
+
+          <!-- Skill 6: Artificial Intelligence -->
+          <div id="skillCard-5" data-blueprint-tag="<div.skill-ai>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Neural Sys</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Applied AI</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>LLM &amp; RAG Agents</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Computer Vision</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>PyTorch &amp; TensorFlow</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>AI Pipelines</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-slate-800"></span>
+            </div>
+          </div>
+
+          <!-- Skill 7: Robotics -->
+          <div id="skillCard-6" data-blueprint-tag="<div.skill-robotics>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                  </svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Embedded IoT</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Robotics</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>ROS2 &amp; Gazebo Sim</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>ESP32 &amp; STM32</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Sensor Telemetry</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Web-Hardware Link</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-slate-800"></span>
+            </div>
+          </div>
+
+          <!-- Skill 8: Problem Solving -->
+          <div id="skillCard-7" data-blueprint-tag="<div.skill-algorithms>" class="build-node glass-panel futuristic-card rounded-2xl p-4 sm:p-5 flex flex-col justify-between border border-cyanBlue/20">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-electricBlue/20 border border-cyanBlue/35 flex items-center justify-center text-cyanBlue">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                </div>
+                <span class="hidden sm:inline-block font-mono text-[9px] px-2 py-0.5 rounded-full bg-darkNavy border border-cyanBlue/25 text-cyanBlue">Architecture</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-base font-bold text-pureWhite mb-2">Problem Solving</h3>
+              <ul class="space-y-1 mb-3.5 text-[11px] sm:text-xs text-softGray">
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Algorithms &amp; DS</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>System Architecture</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Perf Optimization</li>
+                <li class="flex items-center gap-1.5 truncate"><span class="w-1 h-1 rounded-full bg-cyanBlue shrink-0"></span>Tech Leadership</li>
+              </ul>
+            </div>
+            <div class="pt-2.5 border-t border-slate-800/80 flex gap-1">
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+              <span class="h-1 flex-1 rounded-full bg-gradient-to-r from-electricBlue to-cyanBlue"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================
+         SECTION E: MY PROJECTS (COMPACT, UNIFORM, ARCHITECTURAL 2x2 GRID)
+         ======================================================================== -->
+      <section id="projects" class="max-w-[980px] mx-auto px-5 sm:px-6 lg:px-8 scroll-mt-20">
+        <div id="projectsHeaderNode" data-blueprint-tag="<header.projects-section>" class="build-node flex flex-col md:flex-row md:items-end justify-between mb-7 sm:mb-9 gap-3">
+          <div>
+            <div class="flex items-center gap-3 font-mono text-[11px] text-cyanBlue uppercase tracking-widest mb-1.5">
+              <span class="h-[1px] w-12 bg-cyanBlue/40"></span>
+            </div>
+            <h2 class="font-display section-title-clamp font-bold text-pureWhite">My Projects</h2>
+          </div>
+          <p class="text-softGray text-xs sm:text-sm max-w-sm">Galeri proyek pilihan dengan proporsi ringkas, arsitektur modern, dan konsistensi visual.</p>
+        </div>
+
+        <!-- Compact 2x2 Projects Grid (All 4 cards share identical height & rhythm) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 items-stretch">
+          <!-- ================= KARTU PROYEK 1 ================= -->
+          <article id="projectCard-0" data-blueprint-tag="<article.project-01>" class="build-node glass-panel futuristic-card rounded-2xl overflow-hidden border border-cyanBlue/20 flex flex-col justify-between h-full group">
+            <div>
+              <!-- Compact Constrained Thumbnail (155px Mobile / 175px Desktop) -->
+              <div class="relative h-[155px] sm:h-[175px] w-full bg-darkNavy overflow-hidden border-b border-slate-800/90">
+                <!-- GANTI GAMBAR PROYEK 1 DI SINI: Simpan di `assets/img/project-1.jpg` -->
+                <img
+                  src="assets/img/project-1.jpg"
+                  alt="Aether-OS Cloud Environment"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  onerror="
+                    this.onerror = null;
+                    this.src = generateVectorArtwork('AETHER-OS', 'CLOUD WORKSPACE PLATFORM', false);
+                  "
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-deepBlack/80 via-transparent to-transparent"></div>
+                <span class="absolute top-3 left-3 font-mono text-[9px] text-cyanBlue bg-deepBlack/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-cyanBlue/30"> 01 // CLOUD PLATFORM </span>
+              </div>
+
+              <!-- Compact Card Body -->
+              <div class="p-[1.15rem] sm:px-5 space-y-2.5">
+                <h3 class="font-display text-[1.02rem] sm:text-[1.06rem] font-semibold text-pureWhite group-hover:text-cyanBlue transition truncate">AETHER-OS // Cloud Developer Deck</h3>
+                <p class="text-softGray text-[0.82rem] sm:text-[0.85rem] leading-relaxed line-clamp-2-custom">
+                  Platform ruang kerja berbasis web dengan kolaborasi real-time, kompilasi instan, dan antarmuka pengelolaan arsitektur cloud interaktif.
+                </p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">TypeScript</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Next.js</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">WebSockets</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Tailwind</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sleek Compact Card Footer -->
+            <div class="px-[1.15rem] sm:px-5 py-3 border-t border-slate-800/80 bg-deepBlack/30 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-softGray">STATUS: DEPLOYED</span>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs hover:brightness-110 transition inline-flex items-center gap-1"
+              >
+                <span>View Project</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- ================= KARTU PROYEK 2 ================= -->
+          <article id="projectCard-1" data-blueprint-tag="<article.project-02>" class="build-node glass-panel futuristic-card rounded-2xl overflow-hidden border border-cyanBlue/20 flex flex-col justify-between h-full group">
+            <div>
+              <div class="relative h-[155px] sm:h-[175px] w-full bg-darkNavy overflow-hidden border-b border-slate-800/90">
+                <!-- GANTI GAMBAR PROYEK 2 DI SINI: Simpan di `assets/img/project-2.jpg` -->
+                <img
+                  src="assets/img/project-2.jpg"
+                  alt="Neuro-Synth AI Studio"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  onerror="
+                    this.onerror = null;
+                    this.src = generateVectorArtwork('NEURO-SYNTH', 'AUTONOMOUS AI WORKFLOW STUDIO', false);
+                  "
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-deepBlack/80 via-transparent to-transparent"></div>
+                <span class="absolute top-3 left-3 font-mono text-[9px] text-cyanBlue bg-deepBlack/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-cyanBlue/30"> 02 // AI WORKFLOW </span>
+              </div>
+
+              <div class="p-[1.15rem] sm:px-5 space-y-2.5">
+                <h3 class="font-display text-[1.02rem] sm:text-[1.06rem] font-semibold text-pureWhite group-hover:text-cyanBlue transition truncate">NEURO-SYNTH // AI Workflow Studio</h3>
+                <p class="text-softGray text-[0.82rem] sm:text-[0.85rem] leading-relaxed line-clamp-2-custom">
+                  Aplikasi visual berbasis node-graph untuk merancang, menguji, dan mengorkestrasi pipeline kecerdasan buatan multi-modal secara real-time.
+                </p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">React</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">FastAPI</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Canvas 2D</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Vector DB</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-[1.15rem] sm:px-5 py-3 border-t border-slate-800/80 bg-deepBlack/30 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-softGray">STATUS: DEPLOYED</span>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs hover:brightness-110 transition inline-flex items-center gap-1"
+              >
+                <span>View Project</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- ================= KARTU PROYEK 3 ================= -->
+          <article id="projectCard-2" data-blueprint-tag="<article.project-03>" class="build-node glass-panel futuristic-card rounded-2xl overflow-hidden border border-cyanBlue/20 flex flex-col justify-between h-full group">
+            <div>
+              <div class="relative h-[155px] sm:h-[175px] w-full bg-darkNavy overflow-hidden border-b border-slate-800/90">
+                <!-- GANTI GAMBAR PROYEK 3 DI SINI: Simpan di `assets/img/project-3.jpg` -->
+                <img
+                  src="assets/img/project-3.jpg"
+                  alt="Kinetix-ROV Telemetry"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  onerror="
+                    this.onerror = null;
+                    this.src = generateVectorArtwork('KINETIX-ROV', 'ROBOTICS TELEMETRY INTERFACE', false);
+                  "
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-deepBlack/80 via-transparent to-transparent"></div>
+                <span class="absolute top-3 left-3 font-mono text-[9px] text-cyanBlue bg-deepBlack/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-cyanBlue/30"> 03 // ROBOTICS DECK </span>
+              </div>
+
+              <div class="p-[1.15rem] sm:px-5 space-y-2.5">
+                <h3 class="font-display text-[1.02rem] sm:text-[1.06rem] font-semibold text-pureWhite group-hover:text-cyanBlue transition truncate">KINETIX-ROV // Telemetry Control Deck</h3>
+                <p class="text-softGray text-[0.82rem] sm:text-[0.85rem] leading-relaxed line-clamp-2-custom">
+                  Antarmuka kendali jarak jauh untuk robot inspeksi otonom dengan visualisasi sensor LiDAR 3D dan pemantauan perangkat keras berlatensi rendah.
+                </p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Rust</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">WebRTC</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Three.js</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">ROS2</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-[1.15rem] sm:px-5 py-3 border-t border-slate-800/80 bg-deepBlack/30 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-softGray">STATUS: DEPLOYED</span>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs hover:brightness-110 transition inline-flex items-center gap-1"
+              >
+                <span>View Project</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- ================= KARTU PROYEK 4 ================= -->
+          <article id="projectCard-3" data-blueprint-tag="<article.project-04>" class="build-node glass-panel futuristic-card rounded-2xl overflow-hidden border border-cyanBlue/20 flex flex-col justify-between h-full group">
+            <div>
+              <div class="relative h-[155px] sm:h-[175px] w-full bg-darkNavy overflow-hidden border-b border-slate-800/90">
+                <!-- GANTI GAMBAR PROYEK 4 DI SINI: Simpan di `assets/img/project-4.jpg` -->
+                <img
+                  src="assets/img/project-4.jpg"
+                  alt="Quantum-Pay FinTech Platform"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  onerror="
+                    this.onerror = null;
+                    this.src = generateVectorArtwork('QUANTUM-PAY', 'NEXT-GEN FINTECH ARCHITECTURE', false);
+                  "
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-deepBlack/80 via-transparent to-transparent"></div>
+                <span class="absolute top-3 left-3 font-mono text-[9px] text-cyanBlue bg-deepBlack/85 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-cyanBlue/30"> 04 // FINTECH CORE </span>
+              </div>
+
+              <div class="p-[1.15rem] sm:px-5 space-y-2.5">
+                <h3 class="font-display text-[1.02rem] sm:text-[1.06rem] font-semibold text-pureWhite group-hover:text-cyanBlue transition truncate">QUANTUM-PAY // Distributed Ledger</h3>
+                <p class="text-softGray text-[0.82rem] sm:text-[0.85rem] leading-relaxed line-clamp-2-custom">
+                  Ekosistem transaksi digital terdistribusi dengan keamanan berlapis, analitik arus kas real-time, dan pengalaman pengguna yang intuitif.
+                </p>
+                <div class="flex flex-wrap gap-1.5 pt-1">
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Golang</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">PostgreSQL</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">Redis</span>
+                  <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-deepBlack/80 border border-slate-700/70 text-slate-300">UI System</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-[1.15rem] sm:px-5 py-3 border-t border-slate-800/80 bg-deepBlack/30 flex items-center justify-between">
+              <span class="font-mono text-[10px] text-softGray">STATUS: DEPLOYED</span>
+              <a
+                href="https://example.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs hover:brightness-110 transition inline-flex items-center gap-1"
+              >
+                <span>View Project</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ========================================================================
+         SECTION F: EXPERIENCE & EDUCATION (MODERN VERTICAL TIMELINE)
+         ======================================================================== -->
+      <section id="experience" class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 scroll-mt-20">
+        <div id="experienceHeaderNode" data-blueprint-tag="<header.timeline-section>" class="build-node mb-7 sm:mb-10">
+          <div class="flex items-center gap-3 font-mono text-[11px] text-cyanBlue uppercase tracking-widest mb-1.5">
+            <span class="h-[1px] w-12 bg-cyanBlue/40"></span>
+          </div>
+          <h2 class="font-display section-title-clamp font-bold text-pureWhite">Experience &amp; Education</h2>
+        </div>
+
+        <!-- Vertical Timeline (Dapat diedit langsung di HTML di bawah ini) -->
+        <div class="relative pl-5 sm:pl-9 border-l border-cyanBlue/30 space-y-5 sm:space-y-7">
+          <!-- Timeline Item 1 -->
+          <div id="timelineNode-0" data-blueprint-tag="<div.timeline-01>" class="build-node relative group">
+            <div class="absolute -left-[27px] sm:-left-[43px] top-1.5 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-deepBlack border-2 border-cyanBlue shadow-[0_0_12px_#38BDF8] group-hover:scale-125 transition"></div>
+            <div class="glass-panel futuristic-card rounded-2xl p-4 sm:p-6 border border-cyanBlue/20">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <span class="font-mono text-[11px] text-cyanBlue font-semibold">2022 — PRESENT</span>
+                <span class="font-mono text-[9px] px-2 py-0.5 rounded-full bg-electricBlue/20 text-cyanBlue border border-cyanBlue/30">EXPERIENCE</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-lg font-bold text-pureWhite">Principal Creative Full-Stack Engineer</h3>
+              <div class="font-mono text-[11px] text-softGray mb-2">Hyperion Digital Labs</div>
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">
+                Memimpin pengembangan arsitektur frontend dan backend untuk aplikasi skala enterprise, merancang design system lintas tim, serta meningkatkan performa antarmuka web secara signifikan.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div id="timelineNode-1" data-blueprint-tag="<div.timeline-02>" class="build-node relative group">
+            <div class="absolute -left-[27px] sm:-left-[43px] top-1.5 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-deepBlack border-2 border-cyanBlue shadow-[0_0_12px_#38BDF8] group-hover:scale-125 transition"></div>
+            <div class="glass-panel futuristic-card rounded-2xl p-4 sm:p-6 border border-cyanBlue/20">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <span class="font-mono text-[11px] text-cyanBlue font-semibold">2019 — 2022</span>
+                <span class="font-mono text-[9px] px-2 py-0.5 rounded-full bg-electricBlue/20 text-cyanBlue border border-cyanBlue/30">EXPERIENCE</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-lg font-bold text-pureWhite">Senior UI/UX &amp; Frontend Architect</h3>
+              <div class="font-mono text-[11px] text-softGray mb-2">Vanguard Interactive Studio</div>
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">
+                Membangun berbagai website interaktif dan platform digital modern dengan fokus pada animasi tingkat tinggi, responsivitas perangkat, dan standar aksesibilitas modern.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div id="timelineNode-2" data-blueprint-tag="<div.timeline-03>" class="build-node relative group">
+            <div class="absolute -left-[27px] sm:-left-[43px] top-1.5 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-deepBlack border-2 border-cyanBlue shadow-[0_0_12px_#38BDF8] group-hover:scale-125 transition"></div>
+            <div class="glass-panel futuristic-card rounded-2xl p-4 sm:p-6 border border-cyanBlue/20">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <span class="font-mono text-[11px] text-cyanBlue font-semibold">2016 — 2019</span>
+                <span class="font-mono text-[9px] px-2 py-0.5 rounded-full bg-electricBlue/20 text-cyanBlue border border-cyanBlue/30">EXPERIENCE</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-lg font-bold text-pureWhite">Full-Stack Software Developer</h3>
+              <div class="font-mono text-[11px] text-softGray mb-2">Nexus Cloud Systems</div>
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">Mengembangkan layanan RESTful API berkecepatan tinggi, merancang skema database relasional, dan mengotomatisasi deployment aplikasi cloud.</p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 4 -->
+          <div id="timelineNode-3" data-blueprint-tag="<div.timeline-04>" class="build-node relative group">
+            <div class="absolute -left-[27px] sm:-left-[43px] top-1.5 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-deepBlack border-2 border-cyanBlue shadow-[0_0_12px_#38BDF8] group-hover:scale-125 transition"></div>
+            <div class="glass-panel futuristic-card rounded-2xl p-4 sm:p-6 border border-cyanBlue/20">
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                <span class="font-mono text-[11px] text-cyanBlue font-semibold">2012 — 2016</span>
+                <span class="font-mono text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">EDUCATION</span>
+              </div>
+              <h3 class="font-display text-sm sm:text-lg font-bold text-pureWhite">B.Sc. in Computer Science &amp; Engineering</h3>
+              <div class="font-mono text-[11px] text-softGray mb-2">Institute of Technology &amp; Cybernetics</div>
+              <p class="text-softGray text-xs sm:text-sm leading-relaxed">Lulus dengan predikat Cum Laude. Fokus studi pada Rekayasa Perangkat Lunak, Algoritma, Sistem Tertanam (Robotics), dan Interaksi Manusia-Komputer.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================================
+         SECTION G: CONTACT ME (CLEAN, SYMMETRICAL & BALANCED WITHOUT MESSAGE FORM)
+         ======================================================================== -->
+      <section id="contact" class="max-w-4xl mx-auto px-5 sm:px-6 lg:px-8 scroll-mt-20">
+        <div id="contactHeaderNode" data-blueprint-tag="<header.contact-section>" class="build-node text-center mb-6 sm:mb-8">
+          <div class="inline-flex items-center justify-center gap-2.5 font-mono text-[11px] text-cyanBlue uppercase tracking-widest mb-2">
+            <span class="h-[1px] w-8 bg-cyanBlue/40"></span>
+            <span>DIRECT CHANNELS</span>
+            <span class="h-[1px] w-8 bg-cyanBlue/40"></span>
+          </div>
+          <h2 class="font-display section-title-clamp font-bold text-pureWhite">Contact Me</h2>
+        </div>
+
+        <!-- Centered Glassmorphic Contact Card (Responsive 1-Col Mobile / 2-Col Desktop) -->
+        <div id="contactInfoNode" data-blueprint-tag="<section.contact-channels>" class="build-node">
+          <div class="relative glass-panel rounded-2xl p-5 sm:p-8 border border-cyanBlue/20 space-y-6">
+            <div class="corner-bracket cb-tl"></div>
+            <div class="corner-bracket cb-br"></div>
+
+            <!-- Intro & Status Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-5 text-center sm:text-left">
+              <div class="space-y-1 max-w-xl">
+                <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 font-mono text-[10px] text-emerald-300 mb-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span>AVAILABLE FOR COLLABORATION</span>
+                </div>
+                <h3 class="font-display text-lg sm:text-xl font-bold text-pureWhite">Let's Connect &amp; Work Together</h3>
+                <p class="text-softGray text-xs sm:text-sm leading-relaxed">
+                  Tertarik untuk berkolaborasi dalam proyek pengembangan website, aplikasi skala penuh, atau konsultasi UI/UX? Hubungi saya langsung melalui saluran resmi di bawah ini.
+                </p>
+              </div>
+
+              <a
+                href="mailto:alex.reid@architect.dev"
+                class="shrink-0 mx-auto sm:mx-0 px-5 py-3 rounded-xl bg-gradient-to-r from-electricBlue to-cyanBlue text-deepBlack font-display font-bold text-xs sm:text-sm tracking-wide hover:brightness-110 transition shadow-[0_8px_24px_rgba(37,99,235,0.28)] inline-flex items-center gap-2"
+              >
+                <span>Email Me Directly</span>
+                <span>↗</span>
+              </a>
+            </div>
+
+            <!-- 4 Symmetrical Contact Channel Cards (1 Col on Mobile, 2x2 Grid on Tablet/Desktop) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <!-- Channel 1: Email -->
+              <a href="mailto:alex.reid@architect.dev" class="futuristic-card flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-deepBlack/75 border border-slate-800/90 hover:border-cyanBlue transition group">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="w-10 h-10 shrink-0 rounded-xl bg-electricBlue/20 border border-cyanBlue/30 flex items-center justify-center text-cyanBlue text-sm group-hover:bg-cyanBlue group-hover:text-deepBlack transition">✉</div>
+                  <div class="min-w-0 text-left">
+                    <div class="font-mono text-[9px] text-softGray uppercase tracking-wider">EMAIL ADDRESS</div>
+                    <div class="font-mono text-xs sm:text-sm text-pureWhite group-hover:text-cyanBlue transition truncate">alex.reid@architect.dev</div>
+                  </div>
+                </div>
+                <span class="text-softGray group-hover:text-cyanBlue group-hover:translate-x-1 transition ml-2 text-xs">→</span>
+              </a>
+
+              <!-- Channel 2: Instagram -->
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="futuristic-card flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-deepBlack/75 border border-slate-800/90 hover:border-cyanBlue transition group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div
+                    class="w-10 h-10 shrink-0 rounded-xl bg-electricBlue/20 border border-cyanBlue/30 flex items-center justify-center text-cyanBlue font-mono text-xs font-bold group-hover:bg-cyanBlue group-hover:text-deepBlack transition"
+                  >
+                    IG
+                  </div>
+                  <div class="min-w-0 text-left">
+                    <div class="font-mono text-[9px] text-softGray uppercase tracking-wider">INSTAGRAM</div>
+                    <div class="font-mono text-xs sm:text-sm text-pureWhite group-hover:text-cyanBlue transition truncate">@gilangrlubis</div>
+                  </div>
+                </div>
+                <span class="text-softGray group-hover:text-cyanBlue group-hover:translate-x-1 transition ml-2 text-xs">→</span>
+              </a>
+
+              <!-- Channel 3: GitHub -->
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="futuristic-card flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-deepBlack/75 border border-slate-800/90 hover:border-cyanBlue transition group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div
+                    class="w-10 h-10 shrink-0 rounded-xl bg-electricBlue/20 border border-cyanBlue/30 flex items-center justify-center text-cyanBlue font-mono text-xs font-bold group-hover:bg-cyanBlue group-hover:text-deepBlack transition"
+                  >
+                    GH
+                  </div>
+                  <div class="min-w-0 text-left">
+                    <div class="font-mono text-[9px] text-softGray uppercase tracking-wider">GITHUB PROFILE</div>
+                    <div class="font-mono text-xs sm:text-sm text-pureWhite group-hover:text-cyanBlue transition truncate">github.com/gilang-lubis</div>
+                  </div>
+                </div>
+                <span class="text-softGray group-hover:text-cyanBlue group-hover:translate-x-1 transition ml-2 text-xs">→</span>
+              </a>
+
+              <!-- Channel 4: LinkedIn -->
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="futuristic-card flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-deepBlack/75 border border-slate-800/90 hover:border-cyanBlue transition group"
+              >
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div
+                    class="w-10 h-10 shrink-0 rounded-xl bg-electricBlue/20 border border-cyanBlue/30 flex items-center justify-center text-cyanBlue font-mono text-xs font-bold group-hover:bg-cyanBlue group-hover:text-deepBlack transition"
+                  >
+                    IN
+                  </div>
+                  <div class="min-w-0 text-left">
+                    <div class="font-mono text-[9px] text-softGray uppercase tracking-wider">LINKEDIN NETWORK</div>
+                    <div class="font-mono text-xs sm:text-sm text-pureWhite group-hover:text-cyanBlue transition truncate">linkedin.com/in/gilang-lubis</div>
+                  </div>
+                </div>
+                <span class="text-softGray group-hover:text-cyanBlue group-hover:translate-x-1 transition ml-2 text-xs">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==========================================================================
+       SECTION H: FOOTER (CLEAN & BALANCED FOR MOBILE AND DESKTOP)
+       ========================================================================== -->
+    <footer id="footerNode" data-blueprint-tag="<footer.site-footer>" class="build-node relative z-10 border-t border-cyanBlue/15 bg-deepBlack/95 backdrop-blur-lg">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div class="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3">
+          <div class="w-8 h-8 rounded-lg bg-electricBlue/20 border border-cyanBlue/40 flex items-center justify-center font-display font-bold text-xs text-cyanBlue">GRL</div>
+          <div>
+            <div class="font-display font-semibold text-xs sm:text-sm text-pureWhite tracking-wide">GILANG RAMADHAN LUBIS</div>
+            <div class="font-mono text-[10px] sm:text-[11px] text-softGray">© 2026 Gilang R Lubis. All rights reserved.</div>
+          </div>
+        </div>
+
+        <!-- Footer Navigation & Back to Top -->
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-softGray hover:text-cyanBlue transition">GitHub</a>
+          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-softGray hover:text-cyanBlue transition">LinkedIn</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-softGray hover:text-cyanBlue transition">Instagram</a>
+          <a href="#hero" class="px-3.5 py-1.5 rounded-xl bg-electricBlue/20 hover:bg-electricBlue/35 border border-cyanBlue/35 font-mono text-[11px] text-pureWhite transition inline-flex items-center gap-1.5">
+            <span>Back to Top</span>
+            <span class="text-cyanBlue">↑</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ==========================================================================
+       JAVASCRIPT ENGINE: DIRECT LIVE CONSTRUCTION & RESILIENT CURSOR SYSTEM
+       ========================================================================== -->
+    <script>
+      /* ==========================================================================
+       1. KONFIGURASI IDENTITAS UTAMA (PORTFOLIO_DATA)
+       Ubah nama lengkap, profesi, dan path gambar referensi di sini melalui VS Code.
+       ========================================================================== */
+      const PORTFOLIO_DATA = {
+        name: "GILANG RAMADHAN LUBIS",
+        role: "Senior Full-Stack Engineer & UI/UX Architect",
+        email: "alex.reid@architect.dev",
+        images: {
+          profile: "assets/img/profile.jpg",
+          about: "assets/img/about.jpg",
+          projects: ["assets/img/project-1.jpg", "assets/img/project-2.jpg", "assets/img/project-3.jpg", "assets/img/project-4.jpg"],
+        },
+      };
+      const PORTFOLIO_IDENTITY = PORTFOLIO_DATA;
+
+      /* ==========================================================================
+       2. FALLBACK ARTWORK GENERATOR (JIKA FILE LOKAL DI `assets/img/` BELUM ADA)
+       Menampilkan grafis vektor bersih tanpa teks instruksi editor.
+       ========================================================================== */
+      function generateVectorArtwork(title, subtitle, isPortrait) {
+        const w = isPortrait ? 800 : 960;
+        const h = isPortrait ? 900 : 600;
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#080B12"/>
+            <stop offset="50%" stop-color="#101827"/>
+            <stop offset="100%" stop-color="#080B12"/>
+          </linearGradient>
+          <radialGradient id="orb" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#2563EB" stop-opacity="0.38"/>
+            <stop offset="100%" stop-color="#080B12" stop-opacity="0"/>
+          </radialGradient>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#38BDF8" stroke-width="1" stroke-opacity="0.1"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#bg)"/>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+        <circle cx="${w / 2}" cy="${h * 0.44}" r="${Math.min(w, h) * 0.38}" fill="url(#orb)"/>
+        <circle cx="${w / 2}" cy="${h * 0.44}" r="${Math.min(w, h) * 0.22}" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-opacity="0.35" stroke-dasharray="8 6"/>
+        ${
+          isPortrait
+            ? `
+          <circle cx="${w / 2}" cy="${h * 0.38}" r="72" fill="#101827" stroke="#38BDF8" stroke-width="2.5"/>
+          <path d="M ${w / 2 - 140} ${h * 0.65} C ${w / 2 - 140} ${h * 0.5}, ${w / 2 + 140} ${h * 0.5}, ${w / 2 + 140} ${h * 0.65}" fill="#101827" stroke="#38BDF8" stroke-width="2.5"/>
+        `
+            : `
+          <rect x="${w * 0.22}" y="${h * 0.22}" width="${w * 0.56}" height="${h * 0.4}" rx="12" fill="#080B12" fill-opacity="0.85" stroke="#38BDF8" stroke-width="2"/>
+          <line x1="${w * 0.22}" y1="${h * 0.3}" x2="${w * 0.78}" y2="${h * 0.3}" stroke="#38BDF8" stroke-width="1.5" stroke-opacity="0.45"/>
+          <circle cx="${w * 0.26}" cy="${h * 0.26}" r="5" fill="#38BDF8"/>
+          <circle cx="${w * 0.29}" cy="${h * 0.26}" r="5" fill="#2563EB"/>
+        `
+        }
+        <text x="50%" y="${h * 0.78}" text-anchor="middle" fill="#FFFFFF" font-family="Space Grotesk, sans-serif" font-size="22" font-weight="bold" letter-spacing="3">${title}</text>
+        <text x="50%" y="${h * 0.83}" text-anchor="middle" fill="#38BDF8" font-family="JetBrains Mono, monospace" font-size="13" letter-spacing="2">${subtitle}</text>
+      </svg>`;
+        return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+      }
+
+      /* ==========================================================================
+       3. RESILIENT DUAL CURSOR & LIGHT TRAIL CANVAS ENGINE
+       Mendukung perpindahan mode Mobile <-> Desktop secara real-time tanpa
+       mematikan animasi kursor pembangun (devBuilderCursor) maupun kursor user.
+       ========================================================================== */
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let isBuildingWebsite = false;
+
+      const trailCanvas = document.getElementById("cursor-canvas");
+      const ctx = trailCanvas.getContext("2d");
+      let trailParticles = [];
+
+      const devCursorEl = document.getElementById("devBuilderCursor");
+      const devCursorRingEl = document.getElementById("devCursorRing");
+      const devCursorActionText = document.getElementById("devCursorActionText");
+      let devCursorState = {
+        active: false,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 3,
+        targetX: window.innerWidth / 2,
+        targetY: window.innerHeight / 3,
+      };
+
+      const userDotEl = document.getElementById("userCursorDot");
+      const userRingEl = document.getElementById("userCursorRing");
+      let userCursorState = {
+        active: false,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        ringX: window.innerWidth / 2,
+        ringY: window.innerHeight / 2,
+      };
+
+      // Fungsi pengecekan apakah saat ini perangkat menggunakan fine pointer (mouse) atau layar desktop
+      function hasFinePointerOrDesktop() {
+        return window.matchMedia("(hover: hover) and (pointer: fine)").matches || window.innerWidth > 768;
+      }
+
+      // Sinkronisasi ulang ukuran canvas (DPR) & visibilitas kursor saat resize (Mobile <-> Desktop)
+      function syncCursorVisibilityOnResize() {
+        if (!trailCanvas) return;
+        const dpr = window.devicePixelRatio || 1;
+        trailCanvas.width = window.innerWidth * dpr;
+        trailCanvas.height = window.innerHeight * dpr;
+        trailCanvas.style.width = `${window.innerWidth}px`;
+        trailCanvas.style.height = `${window.innerHeight}px`;
+        if (ctx) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        trailCanvas.style.display = "block";
+
+        // Clamp posisi devCursor agar selalu berada di dalam batas layar (baik HP maupun Desktop)
+        devCursorState.targetX = Math.min(window.innerWidth - 40, Math.max(20, devCursorState.targetX));
+        devCursorState.targetY = Math.min(window.innerHeight - 40, Math.max(20, devCursorState.targetY));
+
+        if (isBuildingWebsite) {
+          // Kursor pembangun (DEV_CURSOR) selalu aktif & terlihat selama proses konstruksi di semua mode layar
+          devCursorState.active = true;
+          devCursorEl.style.display = "block";
+          devCursorEl.classList.remove("opacity-0");
+        } else {
+          // Setelah konstruksi selesai, langsung pulihkan kursor interaktif jika di mode desktop (> 768px)
+          if (hasFinePointerOrDesktop()) {
+            document.body.classList.remove("touch-mode-active");
+            document.body.classList.add("custom-cursor-enabled");
+            userCursorState.active = true;
+            userDotEl.style.display = "block";
+            userRingEl.style.display = "block";
+            userDotEl.classList.remove("opacity-0");
+            userRingEl.classList.remove("opacity-0");
+          } else {
+            document.body.classList.remove("custom-cursor-enabled");
+            userDotEl.classList.add("opacity-0");
+            userRingEl.classList.add("opacity-0");
+          }
+        }
+      }
+
+      window.addEventListener("resize", syncCursorVisibilityOnResize);
+      syncCursorVisibilityOnResize();
+
+      function spawnTrailParticle(x, y, color = "56, 189, 248", size = 3) {
+        if (prefersReducedMotion) return;
+        trailParticles.push({ x, y, size, alpha: 0.6, color });
+        if (trailParticles.length > 42) trailParticles.shift();
+      }
+
+      // Fungsi pemulihan instan saat mouse digerakkan (baik dari pointermove maupun mousemove setelah keluar dari mode mobile DevTools)
+      function handleUserMouseMove(clientX, clientY) {
+        document.body.classList.remove("touch-mode-active");
+        userCursorState.x = clientX;
+        userCursorState.y = clientY;
+
+        if (!isBuildingWebsite) {
+          if (!userCursorState.active || userDotEl.classList.contains("opacity-0")) {
+            userCursorState.active = true;
+            userCursorState.ringX = clientX;
+            userCursorState.ringY = clientY;
+            document.body.classList.add("custom-cursor-enabled");
+            userDotEl.style.display = "block";
+            userRingEl.style.display = "block";
+            userDotEl.classList.remove("opacity-0");
+            userRingEl.classList.remove("opacity-0");
+          }
+          spawnTrailParticle(clientX, clientY, "56, 189, 248", 2.6);
+        }
+      }
+
+      window.addEventListener("pointermove", (e) => {
+        if (e.pointerType === "touch") return;
+        handleUserMouseMove(e.clientX, e.clientY);
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        handleUserMouseMove(e.clientX, e.clientY);
+      });
+
+      // Jika pengguna menyentuh layar secara langsung (touchscreen), sembunyikan dot user agar tidak menggantung
+      window.addEventListener(
+        "touchstart",
+        () => {
+          if (!isBuildingWebsite) {
+            document.body.classList.add("touch-mode-active");
+            document.body.classList.remove("custom-cursor-enabled");
+          }
+        },
+        { passive: true },
+      );
+
+      document.addEventListener("mouseover", (e) => {
+        if (!userCursorState.active) return;
+        const interactive = e.target.closest("a, button, input, textarea, article");
+        if (interactive) {
+          userRingEl.style.width = "44px";
+          userRingEl.style.height = "44px";
+          userRingEl.style.marginLeft = "-22px";
+          userRingEl.style.marginTop = "-22px";
+          userRingEl.style.borderColor = "#38BDF8";
+          userRingEl.style.backgroundColor = "rgba(56, 189, 248, 0.12)";
+        } else {
+          userRingEl.style.width = "32px";
+          userRingEl.style.height = "32px";
+          userRingEl.style.marginLeft = "-16px";
+          userRingEl.style.marginTop = "-16px";
+          userRingEl.style.borderColor = "rgba(56, 189, 248, 0.5)";
+          userRingEl.style.backgroundColor = "rgba(56, 189, 248, 0.05)";
+        }
+      });
+
+      // Loop animasi tidak pernah dimatikan sehingga aman saat resize berulang kali
+      function renderCursorLoop() {
+        if (ctx) {
+          ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+          // Render Autonomous Developer Builder Cursor (Aktif di Desktop & Mobile saat konstruksi)
+          if (devCursorState.active) {
+            devCursorState.x += (devCursorState.targetX - devCursorState.x) * 0.18;
+            devCursorState.y += (devCursorState.targetY - devCursorState.y) * 0.18;
+            devCursorEl.style.transform = `translate3d(${devCursorState.x}px, ${devCursorState.y}px, 0)`;
+
+            if (Math.hypot(devCursorState.targetX - devCursorState.x, devCursorState.targetY - devCursorState.y) > 1.8) {
+              spawnTrailParticle(devCursorState.x, devCursorState.y, "56, 189, 248", 3.4);
+            }
+          }
+
+          // Render User Custom Cursor
+          if (userCursorState.active) {
+            userCursorState.ringX += (userCursorState.x - userCursorState.ringX) * 0.22;
+            userCursorState.ringY += (userCursorState.y - userCursorState.ringY) * 0.22;
+            userDotEl.style.transform = `translate3d(${userCursorState.x}px, ${userCursorState.y}px, 0)`;
+            userRingEl.style.transform = `translate3d(${userCursorState.ringX}px, ${userCursorState.ringY}px, 0)`;
+          }
+
+          // Render Light Trail Particles
+          for (let i = 0; i < trailParticles.length; i++) {
+            const p = trailParticles[i];
+            p.alpha *= 0.9;
+            p.size *= 0.96;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, Math.max(0.5, p.size), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${p.color}, ${p.alpha})`;
+            ctx.fill();
+
+            if (i > 0) {
+              const prev = trailParticles[i - 1];
+              ctx.beginPath();
+              ctx.moveTo(prev.x, prev.y);
+              ctx.lineTo(p.x, p.y);
+              ctx.strokeStyle = `rgba(${p.color}, ${p.alpha * 0.42})`;
+              ctx.lineWidth = 1.1;
+              ctx.stroke();
+            }
+          }
+          trailParticles = trailParticles.filter((p) => p.alpha > 0.03);
+        }
+        requestAnimationFrame(renderCursorLoop);
+      }
+      requestAnimationFrame(renderCursorLoop);
+
+      function triggerCursorClickEffect(x, y) {
+        const ripple = document.createElement("div");
+        ripple.className = "cursor-click-ripple";
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        document.body.appendChild(ripple);
+
+        if (devCursorRingEl) {
+          devCursorRingEl.style.transform = "scale(0.75)";
+          setTimeout(() => {
+            devCursorRingEl.style.transform = "scale(1)";
+          }, 130);
+        }
+        setTimeout(() => ripple.remove(), 520);
+      }
+
+      /* ==========================================================================
+       4. DIRECT LIVE CONSTRUCTION ENGINE (NO LOADING SCREEN OVERLAY)
+       Langsung membangun elemen portofolio di depan mata pengunjung.
+       ========================================================================== */
+      let buildRunId = 0;
+      let autoCameraPausedByUser = false;
+
+      // Jika pengunjung melakukan scroll manual, hentikan paksaan auto-scroll
+      function onUserManualScroll() {
+        if (isBuildingWebsite && !autoCameraPausedByUser) {
+          autoCameraPausedByUser = true;
+        }
+      }
+      window.addEventListener("wheel", onUserManualScroll, { passive: true });
+      window.addEventListener("touchmove", onUserManualScroll, { passive: true });
+
+      function waitStep(ms, runId) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            if (runId !== buildRunId) reject(new Error("BUILD_ABORTED"));
+            else resolve();
+          }, ms);
+        });
+      }
+
+      function updateCompactStatus(taskLabel, pct) {
+        const textEl = document.getElementById("buildStatusText");
+        const pctEl = document.getElementById("buildStatusPct");
+        if (textEl) textEl.textContent = taskLabel;
+        if (pctEl) pctEl.textContent = `${pct}%`;
+      }
+
+      async function moveBuilderCursorToElement(elementId, actionLabel, runId, travelMs = 310) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+
+        if (devCursorActionText && actionLabel) {
+          devCursorActionText.textContent = actionLabel;
+        }
+
+        const rect = el.getBoundingClientRect();
+        if (!autoCameraPausedByUser && (rect.top < 70 || rect.bottom > window.innerHeight - 45)) {
+          const targetScrollY = Math.max(0, window.scrollY + rect.top - window.innerHeight * 0.25);
+          window.scrollTo({ top: targetScrollY, behavior: "smooth" });
+          await waitStep(Math.min(320, travelMs), runId);
+        }
+
+        const updatedRect = el.getBoundingClientRect();
+        const maxX = Math.max(40, window.innerWidth - 110);
+        const maxY = Math.max(40, window.innerHeight - 50);
+        devCursorState.targetX = Math.min(maxX, Math.max(24, updatedRect.left + Math.min(updatedRect.width * 0.35, 140)));
+        devCursorState.targetY = Math.min(maxY, Math.max(24, updatedRect.top + Math.min(updatedRect.height * 0.4, 65)));
+
+        await waitStep(travelMs, runId);
+        triggerCursorClickEffect(devCursorState.x, devCursorState.y);
+      }
+
+      async function constructElementNode(elementId, taskText, progressPct, runId, speedMultiplier = 1) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+
+        updateCompactStatus(taskText, progressPct);
+        await moveBuilderCursorToElement(elementId, taskText, runId, 270 * speedMultiplier);
+
+        el.classList.add("wireframe-active");
+        await waitStep(210 * speedMultiplier, runId);
+
+        el.classList.remove("wireframe-active");
+        el.classList.add("built-complete");
+      }
+
+      async function typeTextIntoElement(elementId, fullText, runId, charDelay = 24) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        el.textContent = "";
+        for (let i = 1; i <= fullText.length; i++) {
+          if (runId !== buildRunId) throw new Error("BUILD_ABORTED");
+          el.textContent = fullText.slice(0, i);
+          await waitStep(charDelay, runId);
+        }
+      }
+
+      function resetNodesForBuild() {
+        document.querySelectorAll(".build-node").forEach((node) => {
+          node.classList.remove("wireframe-active", "built-complete");
+        });
+        const blueprintBg = document.getElementById("blueprintBg");
+        blueprintBg.classList.add("active-grid", "constructing-grid");
+
+        const scannerFrame = document.getElementById("heroScannerFrame");
+        if (scannerFrame) scannerFrame.classList.remove("scanner-active");
+
+        document.getElementById("buildStatusPill").classList.remove("hidden");
+        document.getElementById("skipIntroBtn").classList.remove("hidden");
+        document.getElementById("replayIntroBtn").classList.add("hidden");
+      }
+
+      async function startLiveWebsiteConstruction() {
+        if (prefersReducedMotion) {
+          skipConstructionIntro();
+          return;
+        }
+
+        buildRunId++;
+        const currentRunId = buildRunId;
+        isBuildingWebsite = true;
+        autoCameraPausedByUser = false;
+
+        window.scrollTo({ top: 0, behavior: "auto" });
+        resetNodesForBuild();
+
+        userCursorState.active = false;
+        document.body.classList.remove("custom-cursor-enabled");
+        userDotEl.classList.add("opacity-0");
+        userRingEl.classList.add("opacity-0");
+
+        // Aktifkan kursor pembangun (DEV_CURSOR) baik di layar Desktop maupun Mobile
+        devCursorState.active = true;
+        devCursorEl.style.display = "block";
+        devCursorEl.classList.remove("opacity-0");
+
+        try {
+          /* TAHAP 1 & 2: STRUKTUR GRID & NAVBAR */
+          await constructElementNode("navbarNode", "Building Navbar...", 12, currentRunId, 0.85);
+
+          /* TAHAP 3: BUILDING HERO SECTION */
+          await constructElementNode("heroGreetingNode", "Adding Status Pill...", 20, currentRunId, 0.75);
+
+          const heroTitleNode = document.getElementById("heroTitleNode");
+          heroTitleNode.classList.add("wireframe-active");
+          await moveBuilderCursorToElement("heroTitleNode", "Typing Identity...", currentRunId, 250);
+          updateCompactStatus("Typing Identity...", 28);
+          await typeTextIntoElement("heroNameText", PORTFOLIO_IDENTITY.name, currentRunId, 28);
+          await typeTextIntoElement("heroRoleText", PORTFOLIO_IDENTITY.role, currentRunId, 15);
+          heroTitleNode.classList.remove("wireframe-active");
+          heroTitleNode.classList.add("built-complete");
+
+          const scannerFrame = document.getElementById("heroScannerFrame");
+          if (scannerFrame) scannerFrame.classList.add("scanner-active");
+          await constructElementNode("heroAvatarNode", "Revealing Profile Photo...", 40, currentRunId, 0.85);
+
+          await constructElementNode("heroDescNode", "Writing Biography...", 46, currentRunId, 0.7);
+          await constructElementNode("heroCtaNode", "Creating Action Buttons...", 52, currentRunId, 0.7);
+          await constructElementNode("heroSocialNode", "Mounting Social Links...", 56, currentRunId, 0.65);
+
+          /* TAHAP 4: AUTOMATIC SCROLL CONSTRUCTION */
+          // About Me
+          await constructElementNode("aboutHeaderNode", "Building About Section...", 60, currentRunId, 0.65);
+          await constructElementNode("aboutVisualNode", "Rendering About Visual...", 64, currentRunId, 0.7);
+          await constructElementNode("aboutContentNode", "Adding Education & Bio...", 68, currentRunId, 0.7);
+
+          // Skills & Expertise (8 Cards)
+          await constructElementNode("skillsHeaderNode", "Building Skills Matrix...", 71, currentRunId, 0.65);
+          for (let i = 0; i < 8; i++) {
+            await constructElementNode(`skillCard-${i}`, `Mounting Skill 0${i + 1}...`, 72 + i, currentRunId, 0.36);
+          }
+
+          // My Projects (4 Compact Cards)
+          await constructElementNode("projectsHeaderNode", "Building Projects Gallery...", 82, currentRunId, 0.65);
+          for (let i = 0; i < 4; i++) {
+            await constructElementNode(`projectCard-${i}`, `Deploying Project 0${i + 1}...`, 84 + i * 2, currentRunId, 0.52);
+          }
+
+          // Experience & Education Timeline (4 Nodes)
+          await constructElementNode("experienceHeaderNode", "Building Career Timeline...", 92, currentRunId, 0.65);
+          for (let i = 0; i < 4; i++) {
+            await constructElementNode(`timelineNode-${i}`, `Adding Timeline 0${i + 1}...`, 93 + i, currentRunId, 0.44);
+          }
+
+          // Contact & Footer
+          await constructElementNode("contactHeaderNode", "Building Contact Section...", 97, currentRunId, 0.6);
+          await constructElementNode("contactInfoNode", "Linking Direct Channels...", 99, currentRunId, 0.65);
+          await constructElementNode("footerNode", "Finalizing Footer...", 100, currentRunId, 0.55);
+
+          /* TAHAP 5: FINALIZATION */
+          finalizeWebsiteConstruction(true);
+        } catch (err) {
+          if (err.message !== "BUILD_ABORTED") {
+            skipConstructionIntro();
+          }
+        }
+      }
+
+      function finalizeWebsiteConstruction(showBanner = true) {
+        isBuildingWebsite = false;
+        devCursorState.active = false;
+        devCursorEl.classList.add("opacity-0");
+
+        document.querySelectorAll(".build-node").forEach((node) => {
+          node.classList.remove("wireframe-active");
+          node.classList.add("built-complete");
+        });
+
+        document.getElementById("heroNameText").textContent = PORTFOLIO_IDENTITY.name;
+        document.getElementById("heroRoleText").textContent = PORTFOLIO_IDENTITY.role;
+
+        const blueprintBg = document.getElementById("blueprintBg");
+        blueprintBg.classList.add("active-grid");
+        blueprintBg.classList.remove("constructing-grid");
+
+        // Aktifkan kursor interaktif user sesuai mode layar saat ini
+        syncCursorVisibilityOnResize();
+
+        // Switch Compact Pill to Replay Button
+        document.getElementById("buildStatusPill").classList.add("hidden");
+        document.getElementById("skipIntroBtn").classList.add("hidden");
+        document.getElementById("replayIntroBtn").classList.remove("hidden");
+
+        if (showBanner) {
+          const banner = document.getElementById("finalizationBanner");
+          banner.classList.remove("opacity-0", "-translate-y-4");
+
+          if (!autoCameraPausedByUser) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+
+          setTimeout(() => {
+            banner.classList.add("opacity-0", "-translate-y-4");
+          }, 3200);
+        }
+      }
+
+      function skipConstructionIntro() {
+        buildRunId++;
+        finalizeWebsiteConstruction(false);
+      }
+
+      function replayConstructionIntro() {
+        startLiveWebsiteConstruction();
+      }
+
+      /* ==========================================================================
+       5. MOBILE MENU HANDLER
+       ========================================================================== */
+      function toggleMobileMenu() {
+        const drawer = document.getElementById("mobileMenuDrawer");
+        drawer.classList.toggle("hidden");
+      }
+
+      function closeMobileMenu() {
+        const drawer = document.getElementById("mobileMenuDrawer");
+        drawer.classList.add("hidden");
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        startLiveWebsiteConstruction();
+      });
+    </script>
+  </body>
+</html>
